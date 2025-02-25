@@ -209,15 +209,17 @@ namespace Optimus.STFC.Transformers
             }
         }
 
-        [HarmonyPatch(typeof(CanvasController), "OnEnable")] //"Show", new Type[] { typeof(int), typeof(bool) })]
+        [HarmonyPatch(typeof(CanvasController), "LateUpdate")]//"OnEnable")] //"Show", new Type[] { typeof(int), typeof(bool) })]
         [HarmonyPostfix]
-        public static void CanvasController_OnEnable(CanvasController __instance)
+        public static void CanvasController_LateUpdate(CanvasController __instance)
         {
             if (__instance != null)
             {
-                //Scale for pop-up object viewer on OnEnable()
+                //Scale for pop-up object viewer on LateUpdate()
                 if (__instance.name == "ObjectViewerTemplate_Canvas" && configPopUp.Value)
                 {
+                    if (configVerbose.Value) Log.LogInfo($"localScale = [x:{__instance.transform.localScale.x},y:{__instance.transform.localScale.y},z:{__instance.transform.localScale.z}]");
+
                     if (configPopUpScale.Value < 1) configPopUpScale.Value = 1;
                     __instance.transform.localScale = new Vector3
                     {
@@ -225,6 +227,8 @@ namespace Optimus.STFC.Transformers
                         y = (float)configPopUpScale.Value / 100,
                         z = (float)configPopUpScale.Value / 100
                     };
+                    if (configVerbose.Value) Log.LogInfo($"localScale = [x:{__instance.transform.localScale.x},y:{__instance.transform.localScale.y},z:{__instance.transform.localScale.z}]");
+
                 }
             }
         }
