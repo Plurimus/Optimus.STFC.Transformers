@@ -21,6 +21,9 @@ This mod changes some interface windows/pop-ups/menus:
 - [BepInEx/BepInEx.IL2CPP](https://nuget.bepinex.dev/packages/BepInEx.IL2CPP) - v6.0.0-pre.1
 - [BepInEx/BepInEx.PluginInfoProps](https://nuget.bepinex.dev/packages/BepInEx.PluginInfoProps) - v2.1.0
 
+## Support
+For STFC BepInEx items, please visit the [BORG Box](https://discord.gg/8MRcfserGH) discord server.
+
 ## Result screenshots
 ![Transformers1](Transformers1.png)
 ![Transformers2](Transformers2.png)
