@@ -1,46 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFramework>netstandard2.1</TargetFramework>
+	<TargetFramework>net6.0</TargetFramework>
     <AssemblyName>Optimus.STFC.Transformers</AssemblyName>
     <Description>Visuality mod</Description>
-    <Version>1.3.3</Version>
+    <Version>1.4.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-pre.1" IncludeAssets="compile" />
+	<PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.755" IncludeAssets="compile" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\UnhollowedDlls\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\InteropDlls\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Digit.Client.PrimeLib.Runtime">
-      <HintPath>..\UnhollowedDlls\Digit.Client.PrimeLib.Runtime.dll</HintPath>
+      <HintPath>..\InteropDlls\Digit.Client.PrimeLib.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Digit.Engine.Login.Core">
-      <HintPath>..\UnhollowedDlls\Digit.Engine.Login.Core.dll</HintPath>
+      <HintPath>..\InteropDlls\Digit.Engine.Login.Core.dll</HintPath>
     </Reference>
     <Reference Include="Digit.Engine.Login.Prime">
-      <HintPath>..\UnhollowedDlls\Digit.Engine.Login.Prime.dll</HintPath>
+      <HintPath>..\InteropDlls\Digit.Engine.Login.Prime.dll</HintPath>
     </Reference>
     <Reference Include="Il2Cppmscorlib">
-      <HintPath>..\UnhollowedDlls\Il2Cppmscorlib.dll</HintPath>
+      <HintPath>..\InteropDlls\Il2Cppmscorlib.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>..\UnhollowedDlls\Unity.TextMeshPro.dll</HintPath>
+      <HintPath>..\InteropDlls\Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\UnhollowedDlls\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\InteropDlls\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\UnhollowedDlls\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\InteropDlls\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIModule">
-      <HintPath>..\UnhollowedDlls\UnityEngine.UIModule.dll</HintPath>
+      <HintPath>..\InteropDlls\UnityEngine.UIModule.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

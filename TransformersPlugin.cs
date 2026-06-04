@@ -2,6 +2,7 @@
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using BepInEx.Logging;
+using BepInEx.Unity.IL2CPP;
 using Digit.Client.UI;
 using Digit.Networking.Core;
 using Digit.Prime.Navigation;
@@ -12,6 +13,7 @@ using HarmonyLib;
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Optimus.STFC.Transformers
@@ -29,6 +31,12 @@ namespace Optimus.STFC.Transformers
         #endregion
 
         internal static new ManualLogSource Log;
+
+        private static ConfigEntry<bool> configMaximumCanvasScaleFactor;
+        private static ConfigEntry<int> configMaximumCanvasScaleFactorValue;
+
+        private static ConfigEntry<bool> configNavigationZoomExtended;
+        private static ConfigEntry<int> configNavigationZoomMaximum;
 
         private static ConfigEntry<bool> configInventoryPopUp;
         private static ConfigEntry<int> configInventoryPopUpScale;
@@ -49,6 +57,24 @@ namespace Optimus.STFC.Transformers
         public override void Load()
         {
             TransformersPlugin.Log = base.Log;
+
+            configMaximumCanvasScaleFactor = Config.Bind("General",
+                "Root Scale change",  // The key of the configuration option in the configuration file
+                true, // The default value
+                "Изменение общего масштаба интерфейса");
+            configMaximumCanvasScaleFactorValue = Config.Bind("General",
+                "Scale value for Root Scale change (percents)",
+                100, // The default value
+                "Множитель изменения общего масштаба интерфейса (в процентах)");
+
+            configNavigationZoomExtended = Config.Bind("General",
+                "Zoom extended",
+                true, // The default value
+                "Расширение зума камеры");
+            configNavigationZoomMaximum = Config.Bind("General",
+                "Maximum zoom value",  // The key of the configuration option in the configuration file
+                2000, // The default value
+                "Значение максимального зума");
 
             configInventoryPopUp = Config.Bind("General",
                 "Extended speedups inventory popup menu",  // The key of the configuration option in the configuration file
@@ -257,6 +283,59 @@ namespace Optimus.STFC.Transformers
 
                         var fleetWidgets = __instance.transform.parent.GetComponentsInChildren<NavigationZoomEventHandler>(true);
                         if (configVerbose.Value) Log.LogInfo($"fleetWidgets.Count = {fleetWidgets.Count}");
+                    }
+                }
+            }
+        }
+
+        private static float _maximumCanvasScaleFactor;
+        private static bool _maximumCanvasScaleFactorInitialized = false;
+
+        [HarmonyPatch(typeof(ScreenManager), "UpdateCanvasRootScaleFactor")]
+        [HarmonyPostfix]
+        public static void ScreenManager_UpdateCanvasRootScaleFactor(ScreenManager __instance)
+        {
+            if (configMaximumCanvasScaleFactor.Value)
+            {
+                if (!_maximumCanvasScaleFactorInitialized)
+                {
+                    _maximumCanvasScaleFactor = __instance._maximumCanvasScaleFactor;
+                    _maximumCanvasScaleFactorInitialized = true;
+                    if (configVerbose.Value) Log.LogInfo($"Bind initial _maximumCanvasScaleFactor = {_maximumCanvasScaleFactor} ");
+                }
+                //Screen Manager
+                if (__instance != null)
+                {
+                    try
+                    {
+                        __instance._maximumCanvasScaleFactor = _maximumCanvasScaleFactor * ((float)configMaximumCanvasScaleFactorValue.Value)/(float)100;
+                    }
+                    catch (Exception e)
+                    {
+                        if (configVerbose.Value) Log.LogInfo($"ERROR:  {e.Message + e.StackTrace} ");
+                    }
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(NavigationZoom), "SetZoomLevel", new Type[] { typeof(ZoomLevels) })]
+        [HarmonyPostfix]
+        public static void NavigationZoom_SetZoomLevel(NavigationZoom __instance, ZoomLevels level)
+        {
+            if (configNavigationZoomExtended.Value)
+            {
+                if (__instance != null)
+                {
+                    try
+                    {
+                        if (configVerbose.Value) Log.LogInfo($"SetZoomLevel({level.ToString()})");
+
+                        if (configVerbose.Value) Log.LogInfo($"OverrideZoomLimits(100, {configNavigationZoomMaximum.Value})");
+                        __instance.OverrideZoomLimits((float)100, (float)configNavigationZoomMaximum.Value);
+                    }
+                    catch (Exception e)
+                    {
+                        if (configVerbose.Value) Log.LogInfo($"ERROR:  {e.Message + e.StackTrace} ");
                     }
                 }
             }
