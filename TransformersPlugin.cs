@@ -60,8 +60,8 @@ namespace Optimus.STFC.Transformers
 
             configMaximumCanvasScaleFactor = Config.Bind("General",
                 "Root Scale change",  // The key of the configuration option in the configuration file
-                true, // The default value
-                "Изменение общего масштаба интерфейса");
+                false, // The default value
+                "Изменение общего масштаба интерфейса. Также определяет, будет ли пропатчен метод ScreenManager.UpdateCanvasRootScaleFactor (отключите, если конфликтует с Community Patch Mod). Требует перезапуска игры.");
             configMaximumCanvasScaleFactorValue = Config.Bind("General",
                 "Scale value for Root Scale change (percents)",
                 100, // The default value
@@ -69,8 +69,8 @@ namespace Optimus.STFC.Transformers
 
             configNavigationZoomExtended = Config.Bind("General",
                 "Zoom extended",
-                true, // The default value
-                "Расширение зума камеры");
+                false, // The default value
+                "Расширение зума камеры. Также определяет, будет ли пропатчен метод NavigationZoom.SetZoomLevel (отключите, если конфликтует с Community Patch Mod). Требует перезапуска игры.");
             configNavigationZoomMaximum = Config.Bind("General",
                 "Maximum zoom value",  // The key of the configuration option in the configuration file
                 2000, // The default value
@@ -122,7 +122,30 @@ namespace Optimus.STFC.Transformers
                 false, // The default value
                 "write more logs");
 
-            Harmony.CreateAndPatchAll(typeof(TransformersPlugin));
+            var harmony = Harmony.CreateAndPatchAll(typeof(TransformersPlugin));
+
+            if (configMaximumCanvasScaleFactor.Value)
+            {
+                harmony.Patch(
+                    AccessTools.Method(typeof(ScreenManager), "UpdateCanvasRootScaleFactor"),
+                    postfix: new HarmonyMethod(typeof(TransformersPlugin), nameof(ScreenManager_UpdateCanvasRootScaleFactor)));
+            }
+            else if (configVerbose.Value)
+            {
+                Log.LogInfo("ScreenManager.UpdateCanvasRootScaleFactor patch skipped (Root Scale change is off)");
+            }
+
+            if (configNavigationZoomExtended.Value)
+            {
+                harmony.Patch(
+                    AccessTools.Method(typeof(NavigationZoom), "SetZoomLevel", new Type[] { typeof(ZoomLevels) }),
+                    postfix: new HarmonyMethod(typeof(TransformersPlugin), nameof(NavigationZoom_SetZoomLevel)));
+            }
+            else if (configVerbose.Value)
+            {
+                Log.LogInfo("NavigationZoom.SetZoomLevel patch skipped (Zoom extended is off)");
+            }
+
             Log.LogInfo($"Plugin {GUID} is loaded!");
         }
 
@@ -291,8 +314,7 @@ namespace Optimus.STFC.Transformers
         private static float _maximumCanvasScaleFactor;
         private static bool _maximumCanvasScaleFactorInitialized = false;
 
-        [HarmonyPatch(typeof(ScreenManager), "UpdateCanvasRootScaleFactor")]
-        [HarmonyPostfix]
+        // Patched manually in Load() so it can be skipped entirely when configMaximumCanvasScaleFactor is off (Community Patch Mod conflict)
         public static void ScreenManager_UpdateCanvasRootScaleFactor(ScreenManager __instance)
         {
             if (configMaximumCanvasScaleFactor.Value)
@@ -318,8 +340,7 @@ namespace Optimus.STFC.Transformers
             }
         }
 
-        [HarmonyPatch(typeof(NavigationZoom), "SetZoomLevel", new Type[] { typeof(ZoomLevels) })]
-        [HarmonyPostfix]
+        // Patched manually in Load() so it can be skipped entirely when configNavigationZoomExtended is off (Community Patch Mod conflict)
         public static void NavigationZoom_SetZoomLevel(NavigationZoom __instance, ZoomLevels level)
         {
             if (configNavigationZoomExtended.Value)

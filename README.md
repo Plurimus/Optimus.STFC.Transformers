@@ -10,7 +10,11 @@ This mod changes some interface windows/pop-ups/menus:
 - Extended ship management stats window
 - Change pop-up object viewer scale (ships, systems, armadas)
 - Always show names and tags of ships on any zoom
-  
+- Root Scale change (overall UI scale) — **off by default**
+- Zoom extended (increased camera zoom limits) — **off by default**
+
+`Root Scale change` and `Zoom extended` are disabled by default because they patch game methods (`ScreenManager.UpdateCanvasRootScaleFactor` and `NavigationZoom.SetZoomLevel`) that may conflict with Community Patch Mod. Enable them in the config if you don't use Community Patch Mod (or don't rely on it for the same features) — the game needs to be restarted after changing either setting, since the mod decides whether to apply the patch only once, on startup.
+
 ## How to install
 - unpack BepInEx framework release archive into STFC game folder which is usually located at `C:\Games\Star Trek Fleet Command\Star Trek Fleet Command\default\game`
 - run the game client and wait until BepInEx will make unhollowed assemblies in `..\BepInEx\unhollowed\` folder

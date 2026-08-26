@@ -4,7 +4,7 @@
 	<TargetFramework>net6.0</TargetFramework>
     <AssemblyName>Optimus.STFC.Transformers</AssemblyName>
     <Description>Visuality mod</Description>
-    <Version>1.4.0</Version>
+    <Version>1.5.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
