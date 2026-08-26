@@ -1,7 +1,7 @@
 # Transformers plugin/mod for Star Trek Fleet Command™ game client
 Current version: [v1.5.0](https://github.com/Plurimus/Optimus.STFC.Transformers/releases/tag/v1.5.0)
 Tested with STFC client v1.000.51558 (Update 94.0.0)
-Designed to use with [BepInEx.STFC](https://github.com/Plurimus/BepInEx.STFC) framework
+Designed to use with [BepInEx.STFC](https://builds.bepinex.dev/projects/bepinex_be) framework (bleeding edge builds)
 Recommended to use with [BepInExConfigManager.Il2Cpp](https://github.com/Jelosus2/BepInExConfigManager) plugin as ingame settings editor
 
 ## What it does
