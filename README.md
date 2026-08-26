@@ -1,7 +1,8 @@
 # Transformers plugin/mod for Star Trek Fleet Command™ game client
-Tested with STFC client v1.000.41004 (Update 75.2.0)
-Designed to use with [BepInEx.Legacy](https://github.com/Plurimus/BepInEx.Legacy) framework
-Recommended to use with [BepInExConfigManager.Il2Cpp](https://github.com/sinai-dev/BepInExConfigManager) plugin as ingame settings editor
+Current version: [v1.5.0](https://github.com/Plurimus/Optimus.STFC.Transformers/releases/tag/v1.5.0)
+Tested with STFC client v1.000.51558 (Update 94.0.0)
+Designed to use with [BepInEx.STFC](https://github.com/Plurimus/BepInEx.STFC) framework
+Recommended to use with [BepInExConfigManager.Il2Cpp](https://github.com/Jelosus2/BepInExConfigManager) plugin as ingame settings editor
 
 ## What it does
 This mod changes some interface windows/pop-ups/menus:
@@ -17,12 +18,12 @@ This mod changes some interface windows/pop-ups/menus:
 
 ## How to install
 - unpack BepInEx framework release archive into STFC game folder which is usually located at `C:\Games\Star Trek Fleet Command\Star Trek Fleet Command\default\game`
-- run the game client and wait until BepInEx will make unhollowed assemblies in `..\BepInEx\unhollowed\` folder
+- run the game client and wait until BepInEx will make interop assemblies in `..\BepInEx\interop\` folder
 - unpack Optimus.STFC.Transformers archive to BepInEx folder so it will copy `Optimus.STFC.Transformers.dll` to `C:\Games\Star Trek Fleet Command\Star Trek Fleet Command\default\gameBepInEx\plugins\`
 - make a link file to `prime.exe` and start the game client with it to avoid automatic updates 
 
 ## Used libraries
-- [BepInEx/BepInEx.IL2CPP](https://nuget.bepinex.dev/packages/BepInEx.IL2CPP) - v6.0.0-pre.1
+- [BepInEx/BepInEx.Unity.IL2CPP](https://nuget.bepinex.dev/packages/BepInEx.Unity.IL2CPP) - v6.0.0-be.755
 - [BepInEx/BepInEx.PluginInfoProps](https://nuget.bepinex.dev/packages/BepInEx.PluginInfoProps) - v2.1.0
 
 ## Support
